@@ -1,20 +1,57 @@
 import Header from '../components/Header/Header.jsx';
 import Main from '../components/Main/Main.jsx';
 import Footer from '../components/Footer/Footer.jsx';
+import PopupImage from '../components/PopupImage/PopupImage.jsx';
 import PopupWithForm from '../components/PopupWithForm/PopupWithForm.jsx';
+import { useState } from 'react';
 
 function App() {
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
+
+  function closeAllPopups() {
+    setIsEditProfilePopupOpen(false)
+    setIsAddPlacePopupOpen(false)
+    setIsEditAvatarPopupOpen(false)
+
+  }
+
+  function handleEditProfileClick() {
+    setIsEditProfilePopupOpen(true)
+  }
+
+  function handleAddPlaceClick() {
+    setIsAddPlacePopupOpen(true)
+  }
+
+  function handleEditAvatarClick() {
+    setIsEditAvatarPopupOpen(true)
+  }
+
+  // function handleRemoveCardClick() {
+    
+  // }
+
+  // function handleScaleImageClick() {
+    
+  // }
+
   return (
     <div className="container">
 
       <Header/>
       
-      <Main/>
+      <Main
+        onEditProfile = {handleEditProfileClick}
+        onAddPlace = {handleAddPlaceClick}
+        onEditAvatar = {handleEditAvatarClick}
+      />
 
-      <PopupWithForm name='photo' title='' ariaLabel='Окно увеличенной фотографии' titleButton=''>
-      </PopupWithForm>
+      <PopupImage />
 
-      <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' titleButton='Сохранить'>
+      <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' 
+      titleButton='Сохранить' isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <input
           type="text"
           name="name"
@@ -37,7 +74,8 @@ function App() {
         <span className="popup__error popup__error_type_profession" />
       </PopupWithForm>
 
-      <PopupWithForm name='new-card' title='Новое место' ariaLabel='Окно добавления новой фотографии' titleButton='Создать'>
+      <PopupWithForm name='new-card' title='Новое место' ariaLabel='Окно добавления новой фотографии' 
+      titleButton='Создать' isOpened={isAddPlacePopupOpen} onClose={closeAllPopups}>
        <input
           type="text"
           name="place"
@@ -59,7 +97,8 @@ function App() {
         <span className="popup__error popup__error_type_link" />
       </PopupWithForm>
 
-      <PopupWithForm name='avatar' title='Обновить аватар' ariaLabel='Окно редактирования аватара' titleButton='Сохранить'>
+      <PopupWithForm name='avatar' title='Обновить аватар' ariaLabel='Окно редактирования аватара' 
+      titleButton='Сохранить'  isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}>
         <input
           type="url"
           name="avatar"
