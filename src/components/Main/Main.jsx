@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../../utils/Api.js';
 import Card from '../Card/Card.jsx';
 
-export default function Main({onEditProfile, onAddPlace, onEditAvatar}) {
+export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardClick}) {
   const [userName, setUserName] = useState('');
   const [userDescription, setUserDescription] = useState('');
   const [userAvatar, setUserAvatar] = useState('');
@@ -37,7 +37,7 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar}) {
             {cards.map(data => {
               return( 
                 <div className="element" key={data._id}> 
-                  <Card card={data} />
+                  <Card card={data} onClick={onCardClick} />
                 </div>)
               }
             )}

@@ -1,7 +1,8 @@
-export default function Card(data) {
+export default function Card(data, onCardClick) {
   return (
     <div className="element">
-      <img className="element__photo" src={data.card.link} alt={data.card.name} />
+      <img className="element__photo" src={data.card.link} alt={data.card.name} 
+        onClick={() => onCardClick({link: data.card.link, name: data.card.name})} />
       <button className="element__remove" type="button" />
       <div className="element__description">
         <h2 className="element__place">{data.card.name}</h2>
