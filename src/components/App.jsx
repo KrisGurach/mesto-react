@@ -1,7 +1,7 @@
 import Header from '../components/Header/Header.jsx';
 import Main from '../components/Main/Main.jsx';
 import Footer from '../components/Footer/Footer.jsx';
-import PopupImage from '../components/PopupImage/PopupImage.jsx';
+import ImagePopup from './ImagePopup/ImagePopup.jsx';
 import PopupWithForm from '../components/PopupWithForm/PopupWithForm.jsx';
 import { useState } from 'react';
 
@@ -49,7 +49,7 @@ function App() {
         onCardClick = {handleCardClick}
       />
 
-      <PopupImage />
+      <ImagePopup />
 
       <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' 
       titleButton='Сохранить' isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
@@ -129,7 +129,7 @@ function App() {
 
       </PopupWithForm>
 
-      <PopupImage 
+      <ImagePopup 
         card={selectedCard} 
         isOpened={isImagePopup} 
         onClose={closeAllPopups} />

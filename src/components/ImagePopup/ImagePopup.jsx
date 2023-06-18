@@ -1,4 +1,4 @@
-export default function PopupImage({card, isOpened, onClose}) {
+export default function ImagePopup({card, isOpened, onClose}) {
     return(
         <section
         className={`popup popup_type_photo ${isOpened && 'popup_opened'}`}
