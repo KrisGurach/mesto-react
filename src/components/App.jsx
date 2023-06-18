@@ -32,10 +32,6 @@ function App() {
     setIsEditAvatarPopupOpen(true)
   }
 
-  // function handleRemoveCardClick() {
-    
-  // }
-
   function handleCardClick({link, name}) {
     setIsSelectedCardOpen({link, name})
     setIsImagePopupOpen(true)
@@ -79,8 +75,13 @@ function App() {
         <span className="popup__error popup__error_type_profession" />
       </PopupWithForm>
 
-      <PopupWithForm name='new-card' title='Новое место' ariaLabel='Окно добавления новой фотографии' 
-      titleButton='Создать' isOpened={isAddPlacePopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm 
+        name='new-card' 
+        title='Новое место' 
+        ariaLabel='Окно добавления новой фотографии' 
+        titleButton='Создать' 
+        isOpened={isAddPlacePopupOpen} 
+        onClose={closeAllPopups}>
        <input
           type="text"
           name="place"
@@ -102,8 +103,13 @@ function App() {
         <span className="popup__error popup__error_type_link" />
       </PopupWithForm>
 
-      <PopupWithForm name='avatar' title='Обновить аватар' ariaLabel='Окно редактирования аватара' 
-      titleButton='Сохранить'  isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups}>
+      <PopupWithForm 
+        name='avatar' 
+        title='Обновить аватар' 
+        ariaLabel='Окно редактирования аватара' 
+        titleButton='Сохранить'  
+        isOpened={isEditAvatarPopupOpen} 
+        onClose={closeAllPopups}>
         <input
           type="url"
           name="avatar"
@@ -115,11 +121,18 @@ function App() {
         <span className="popup__error popup__error_type_avatar" />
       </PopupWithForm>
 
-      <PopupWithForm name='remove-photo' title='Вы уверены?' ariaLabel='Окно подтверждения удаления фото' titleButton='Да'>
+      <PopupWithForm 
+        name='remove-photo' 
+        title='Вы уверены?' 
+        ariaLabel='Окно подтверждения удаления фото' 
+        titleButton='Да'>
 
       </PopupWithForm>
 
-      <PopupImage card={selectedCard} isOpened={isImagePopup} onClose={closeAllPopups} />
+      <PopupImage 
+        card={selectedCard} 
+        isOpened={isImagePopup} 
+        onClose={closeAllPopups} />
 
       <Footer/>
 
