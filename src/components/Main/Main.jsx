@@ -37,7 +37,7 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardCli
             {cards.map(data => {
               return( 
                 <div className="element" key={data._id}> 
-                  <Card card={data} onClick={onCardClick} />
+                  <Card card={data} onCardClick={onCardClick} />
                 </div>)
               }
             )}

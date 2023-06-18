@@ -16,7 +16,7 @@ function App() {
     setIsEditProfilePopupOpen(false)
     setIsAddPlacePopupOpen(false)
     setIsEditAvatarPopupOpen(false)
-    setIsSelectedCardOpen(false)
+    setIsSelectedCardOpen({})
     setIsImagePopupOpen(false)
   }
 
@@ -119,9 +119,7 @@ function App() {
 
       </PopupWithForm>
 
-      <PopupImage card={selectedCard} isOpened={isImagePopup} onClose={closeAllPopups}></PopupImage>
-
-      
+      <PopupImage card={selectedCard} isOpened={isImagePopup} onClose={closeAllPopups} />
 
       <Footer/>
 

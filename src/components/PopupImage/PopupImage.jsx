@@ -11,8 +11,8 @@ export default function PopupImage({card, isOpened, onClose}) {
             onClick={onClose}
           />
           <figure className="popup__figure">
-            <img className="popup__scale-image" src="#" alt="#" />
-            <figcaption className="popup__figcaption" />
+            <img className="popup__scale-image" src={card ? card.link : "#"} alt={card ? card.name : "#"} /> 
+            <figcaption className="popup__figcaption">{card ? card.name : "#"}</figcaption>
           </figure>
         </div>
       </section>
