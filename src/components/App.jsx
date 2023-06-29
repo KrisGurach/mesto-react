@@ -1,16 +1,30 @@
+import api from '../utils/api.js';
+import { CurrentUserContext } from '../contexts/CurrentUserContext.js';
 import Header from '../components/Header/Header.jsx';
 import Main from '../components/Main/Main.jsx';
 import Footer from '../components/Footer/Footer.jsx';
 import ImagePopup from './ImagePopup/ImagePopup.jsx';
 import PopupWithForm from '../components/PopupWithForm/PopupWithForm.jsx';
-import { useState } from 'react';
+import EditProfilePopup from './EditProfilePopup/EditProfilePopup.jsx';
+import { useState, useEffect } from 'react';
 
 function App() {
+  //стейты для получения информации с сервера
+  const [currentUser, setCurrentUser] = useState({});
+  const [cards, setCards] = useState([]);
+
+
+  //стейты для попапов
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
   const [selectedCard, setIsSelectedCardOpen] = useState({})
   const [isImagePopup, setIsImagePopupOpen] = useState(false)
+
+  useEffect(() => {
+    api.getWebInfo()
+      .then((info) => setCurrentUser(info))
+  }, [])
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
@@ -37,7 +51,23 @@ function App() {
     setIsImagePopupOpen(true)
   }
 
+  function handleCardLike(card) {
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    
+    api.toggleLikeCard(card._id, !isLiked).then((newCard) => {
+        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+    });
+  }
+  
+  function handleCardDelete(id) {
+    api.removeCard(id)
+      .then(() => {
+        setCards((state) => state.filter(card => card._id !== id));
+      })
+  }
+
   return (
+    <CurrentUserContext.Provider value={currentUser}>
     <div className="container">
 
       <Header/>
@@ -47,11 +77,15 @@ function App() {
         onAddPlace = {handleAddPlaceClick}
         onEditAvatar = {handleEditAvatarClick}
         onCardClick = {handleCardClick}
+        onCardLike = {handleCardLike}
+        onCardDelete = {handleCardDelete}
       />
 
       <ImagePopup />
 
-      <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' 
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
+
+      {/* <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' 
       titleButton='Сохранить' isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
         <input
           type="text"
@@ -73,7 +107,7 @@ function App() {
           required=""
         />
         <span className="popup__error popup__error_type_profession" />
-      </PopupWithForm>
+      </PopupWithForm> */}
 
       <PopupWithForm 
         name='new-card' 
@@ -137,6 +171,7 @@ function App() {
       <Footer/>
 
     </div>
+    </CurrentUserContext.Provider>
   );
 }
 
