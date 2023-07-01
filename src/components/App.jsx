@@ -8,6 +8,7 @@ import PopupWithForm from '../components/PopupWithForm/PopupWithForm.jsx';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup.jsx';
 import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup.jsx';
 import { useState, useEffect } from 'react';
+import AddPlacePopup from './AddPlacePopup/AddPlacePopup.jsx';
 
 function App() {
   //стейты для получения информации с сервера
@@ -26,6 +27,10 @@ function App() {
     api.getWebInfo()
       .then((info) => setCurrentUser(info))
   }, [])
+
+  useEffect(() => {
+    api.getCards().then((webCards) => setCards(webCards));
+  }, []);
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false)
@@ -89,6 +94,13 @@ function App() {
     })
   }
 
+  function handleAddPlaceSubmit({place, link}) {
+    api.sendNewCard({place, link}).then((newCard) => {
+      setCards([newCard, ...cards]);
+      closeAllPopups();
+    })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="container">
@@ -96,6 +108,7 @@ function App() {
       <Header/>
       
       <Main
+        cards = {cards}
         onEditProfile = {handleEditProfileClick}
         onAddPlace = {handleAddPlaceClick}
         onEditAvatar = {handleEditAvatarClick}
@@ -108,33 +121,7 @@ function App() {
 
       <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
-      <PopupWithForm 
-        name='new-card' 
-        title='Новое место' 
-        ariaLabel='Окно добавления новой фотографии' 
-        titleButton='Создать' 
-        isOpened={isAddPlacePopupOpen} 
-        onClose={closeAllPopups}>
-       <input
-          type="text"
-          name="place"
-          placeholder="Название"
-          className="popup__input popup__input_type_place"
-          minLength={2}
-          maxLength={30}
-          required=""
-        />
-        <span className="popup__error popup__error_type_place" />
-        <input
-          type="url"
-          name="link"
-          placeholder="Ссылка на картинку"
-          className="popup__input popup__input_type_link"
-          pattern="https://.*"
-          required=""
-        />
-        <span className="popup__error popup__error_type_link" />
-      </PopupWithForm>
+      <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
 
       <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
