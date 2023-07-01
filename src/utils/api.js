@@ -28,7 +28,7 @@ class Api {
       },
       body: JSON.stringify({
         name: inputValues.name,
-        about: inputValues.profession
+        about: inputValues.about
       })
     })
     .then((res) => this._getResponseData(res));
