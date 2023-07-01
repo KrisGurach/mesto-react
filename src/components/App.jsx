@@ -6,6 +6,7 @@ import Footer from '../components/Footer/Footer.jsx';
 import ImagePopup from './ImagePopup/ImagePopup.jsx';
 import PopupWithForm from '../components/PopupWithForm/PopupWithForm.jsx';
 import EditProfilePopup from './EditProfilePopup/EditProfilePopup.jsx';
+import EditAvatarPopup from './EditAvatarPopup/EditAvatarPopup.jsx';
 import { useState, useEffect } from 'react';
 
 function App() {
@@ -66,6 +67,28 @@ function App() {
       })
   }
 
+  function handleUpdateUser(userNewInfo) {
+    api.updateProfileData(userNewInfo).then(() => {
+      setCurrentUser({
+        name: userNewInfo.name,
+        about: userNewInfo.about,
+        avatar: currentUser.avatar
+      });
+      closeAllPopups();
+    })
+  }
+
+  function handleUpdateAvatar({avatar}) {
+    api.sendAvatar(avatar).then(() => {
+      setCurrentUser({
+        name: currentUser.name,
+        about: currentUser.about,
+        avatar: avatar
+      });
+      closeAllPopups();
+    })
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
     <div className="container">
@@ -83,31 +106,7 @@ function App() {
 
       <ImagePopup />
 
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} />
-
-      {/* <PopupWithForm name='edition' title='Редактировать профиль' ariaLabel='Окно редактирования информации о себе' 
-      titleButton='Сохранить' isOpened={isEditProfilePopupOpen} onClose={closeAllPopups}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Введите имя"
-          className="popup__input popup__input_type_name"
-          minLength={2}
-          maxLength={40}
-          required=""
-        />
-        <span className="popup__error popup__error_type_name" />
-        <input
-          type="text"
-          name="profession"
-          placeholder="Введите профессию"
-          className="popup__input popup__input_type_profession"
-          minLength={2}
-          maxLength={400}
-          required=""
-        />
-        <span className="popup__error popup__error_type_profession" />
-      </PopupWithForm> */}
+      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
 
       <PopupWithForm 
         name='new-card' 
@@ -137,23 +136,7 @@ function App() {
         <span className="popup__error popup__error_type_link" />
       </PopupWithForm>
 
-      <PopupWithForm 
-        name='avatar' 
-        title='Обновить аватар' 
-        ariaLabel='Окно редактирования аватара' 
-        titleButton='Сохранить'  
-        isOpened={isEditAvatarPopupOpen} 
-        onClose={closeAllPopups}>
-        <input
-          type="url"
-          name="avatar"
-          placeholder="Ссылка на аватар"
-          className="popup__input popup__input_type_avatar"
-          pattern="https://.*"
-          required=""
-        />
-        <span className="popup__error popup__error_type_avatar" />
-      </PopupWithForm>
+      <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
 
       <PopupWithForm 
         name='remove-photo' 

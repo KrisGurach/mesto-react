@@ -10,7 +10,7 @@ export default function Main({onEditProfile, onAddPlace, onEditAvatar, onCardCli
 
   useEffect(() => {
     api.getCards().then((webCards) => setCards(webCards));
-  });
+  }, []);
 
     return(
         <main>
