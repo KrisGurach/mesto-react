@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useForm } from "../../hooks/useForm";
+import { AppContext } from "../../contexts/AppContext";
 
 
-export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const currentUser = React.useContext(CurrentUserContext);  
+export default function EditProfilePopup({ isOpen, onUpdateUser }) {
+  const currentUser = useContext(CurrentUserContext);  
   const {values, handleChange, setValues} = useForm(currentUser);
+  const {isLoading} = useContext(AppContext);
+
 
   React.useEffect(() => {
     setValues(currentUser);
@@ -23,9 +26,8 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       name="edition"
       title="Редактировать профиль"
       ariaLabel="Окно редактирования информации о себе"
-      titleButton="Сохранить"
+      titleButton={isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpened={isOpen}
-      onClose={onClose}
       onSubmit={handleSubmit}
     >
       <input

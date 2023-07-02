@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
+import { AppContext } from "../../contexts/AppContext";
 
-export default function EditAvatarPopup({isOpened, onClose, onUpdateAvatar}) {
+export default function EditAvatarPopup({isOpened, onUpdateAvatar}) {
   const avatarRef = React.useRef();
+  const {isLoading} = useContext(AppContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -16,9 +18,8 @@ export default function EditAvatarPopup({isOpened, onClose, onUpdateAvatar}) {
       name="avatar"
       title="Обновить аватар"
       ariaLabel="Окно редактирования аватара"
-      titleButton="Сохранить"
+      titleButton={isLoading ? 'Сохранение...' : 'Сохранить'}
       isOpened={isOpened}
-      onClose={onClose}
       onSubmit={handleSubmit}
     >
       <input

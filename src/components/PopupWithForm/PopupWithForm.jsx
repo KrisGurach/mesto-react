@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import { usePopupClose } from "../../hooks/usePopupClose";
+import { AppContext } from "../../contexts/AppContext";
 
 export default function PopupWithForm({
   name,
@@ -7,9 +9,9 @@ export default function PopupWithForm({
   titleButton,
   children,
   isOpened,
-  onClose,
   onSubmit,
 }) {
+  const {onClose} = useContext(AppContext);
   usePopupClose(isOpened, onClose);
 
   return (

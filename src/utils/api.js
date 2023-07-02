@@ -4,94 +4,89 @@ class Api {
     this._token = token;
   }
 
-  _getResponseData = (res) => {
-    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`)
+  _request(endPoint, options) {
+    return fetch(this._url + endPoint, options).then(this._getResponseData);
   }
+
+  _getResponseData = (res) => {
+    return res.ok ? res.json() : Promise.reject(`Ошибка: ${res.status}`);
+  };
 
   getCards = () => {
-    return fetch (
-      this._url + "/cards", {
-        headers: {
-          authorization: this._token
-        }
-      }
-    )
-      .then((res) => this._getResponseData(res));
-  }
+    return this._request("/cards", {
+      headers: {
+        authorization: this._token,
+      },
+    });
+  };
 
   updateProfileData = (inputValues) => {
-    return fetch(this._url + "/users/me", {
+    return this._request("/users/me", {
       method: "PATCH",
       headers: {
         authorization: this._token,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: inputValues.name,
-        about: inputValues.about
-      })
-    })
-    .then((res) => this._getResponseData(res));
+        about: inputValues.about,
+      }),
+    });
   };
 
   getWebInfo = () => {
-    return fetch(this._url + "/users/me", {
+    return this._request("/users/me", {
       headers: {
-        authorization: this._token
-      }
-    })
-      .then((res) => this._getResponseData(res));
+        authorization: this._token,
+      },
+    });
   };
 
   sendNewCard = (inputValues) => {
-    return fetch(this._url + "/cards", {
+    return this._request("/cards", {
       method: "POST",
       headers: {
         authorization: this._token,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         name: inputValues.place,
-        link: inputValues.link
-      })
-    })
-      .then((res) => this._getResponseData(res));
+        link: inputValues.link,
+      }),
+    });
   };
 
   removeCard = (id) => {
-    return fetch(this._url + "/cards/" + id, {
+    return this._request("/cards/" + id, {
       method: "DELETE",
       headers: {
-        authorization: this._token
-      }
-    })
-    .then((res) => this._getResponseData(res));
+        authorization: this._token,
+      },
+    });
   };
 
   toggleLikeCard = (cardId, isLiked) => {
     const method = isLiked ? "PUT" : "DELETE";
 
-    return fetch(this._url + `/cards/${cardId}/likes`, {
+    return this._request(`/cards/${cardId}/likes`, {
       method: method,
       headers: {
-        authorization: this._token
-      }
-    })
-    .then((res) => this._getResponseData(res));
+        authorization: this._token,
+      },
+    });
   };
 
   sendAvatar = (link) => {
-    return fetch(this._url + "/users/me/avatar", {
+    return this._request("/users/me/avatar", {
       method: "PATCH",
       headers: {
         authorization: this._token,
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        avatar: link
-      })
-    })
-    .then((res) => this._getResponseData(res));
+        avatar: link,
+      }),
+    });
   };
 }
 

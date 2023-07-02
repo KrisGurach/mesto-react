@@ -1,6 +1,10 @@
+import { useContext } from "react";
 import { usePopupClose } from "../../hooks/usePopupClose"
+import { AppContext } from "../../contexts/AppContext";
 
-export default function ImagePopup({card, isOpened, onClose}) {
+export default function ImagePopup({card, isOpened}) {
+  const {onClose} = useContext(AppContext);
+
   usePopupClose(isOpened, onClose);
   
     return(

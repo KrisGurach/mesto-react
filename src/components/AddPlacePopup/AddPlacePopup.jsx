@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import { useForm } from "../../hooks/useForm";
+import { AppContext } from "../../contexts/AppContext";
 
-export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
+export default function AddPlacePopup({isOpened, onAddPlace}) {
   const {values, handleChange} = useForm({});
-
+  const {isLoading} = useContext(AppContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -17,9 +18,8 @@ export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
       name="new-card"
       title="Новое место"
       ariaLabel="Окно добавления новой фотографии"
-      titleButton="Создать"
+      titleButton={isLoading ? 'Сохранение...' : 'Создать'}
       isOpened={isOpened}
-      onClose={onClose}
       onSubmit={handleSubmit}
     >
       <input
