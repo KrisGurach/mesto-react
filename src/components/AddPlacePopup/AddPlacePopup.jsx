@@ -3,9 +3,9 @@ import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import { useForm } from "../../hooks/useForm";
 import { AppContext } from "../../contexts/AppContext";
 
-export default function AddPlacePopup({isOpened, onAddPlace}) {
-  const {values, handleChange} = useForm({});
-  const {isLoading} = useContext(AppContext);
+export default function AddPlacePopup({ isOpened, onAddPlace }) {
+  const { values, handleChange } = useForm({});
+  const { isLoading } = useContext(AppContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -18,7 +18,7 @@ export default function AddPlacePopup({isOpened, onAddPlace}) {
       name="new-card"
       title="Новое место"
       ariaLabel="Окно добавления новой фотографии"
-      titleButton={isLoading ? 'Сохранение...' : 'Создать'}
+      titleButton={isLoading ? "Сохранение..." : "Создать"}
       isOpened={isOpened}
       onSubmit={handleSubmit}
     >
@@ -30,7 +30,7 @@ export default function AddPlacePopup({isOpened, onAddPlace}) {
         minLength={2}
         maxLength={30}
         required=""
-        value={values.place || ''}
+        value={values.place || ""}
         onChange={handleChange}
       />
       <span className="popup__error popup__error_type_place" />
@@ -41,7 +41,7 @@ export default function AddPlacePopup({isOpened, onAddPlace}) {
         className="popup__input popup__input_type_link"
         pattern="https://.*"
         required=""
-        value={values.link || ''}
+        value={values.link || ""}
         onChange={handleChange}
       />
       <span className="popup__error popup__error_type_link" />

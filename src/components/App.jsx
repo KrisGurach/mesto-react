@@ -24,7 +24,6 @@ function App() {
   const [isImagePopup, setIsImagePopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-
   useEffect(() => {
     api.getWebInfo().then((info) => setCurrentUser(info));
   }, []);
@@ -62,16 +61,22 @@ function App() {
     const isLiked = card.likes.some((i) => i._id === currentUser._id);
 
     function makeRequest() {
-      return  api.toggleLikeCard(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
-      });
+      return api.toggleLikeCard(card._id, !isLiked)
+        .then((newCard) =>
+          setCards((state) =>
+            state.map((c) => (c._id === card._id ? newCard : c))
+          )
+        );
     }
     handleSubmit(makeRequest);
   }
 
   function handleCardDelete(id) {
     function makeRequest() {
-      return api.removeCard(id).then(() => setCards((state) => state.filter((card) => card._id !== id)));
+      return api.removeCard(id)
+        .then(() =>
+          setCards((state) => state.filter((card) => card._id !== id))
+        );
     }
 
     handleSubmit(makeRequest);
@@ -82,7 +87,7 @@ function App() {
       return api.updateProfileData(userNewInfo)
         .then((userData) => setCurrentUser(userData));
     }
-    
+
     handleSubmit(makeRequest);
   }
   
@@ -92,7 +97,7 @@ function App() {
       return api.sendAvatar(avatar)
         .then((userData) => setCurrentUser(userData));
     }
-    
+
     handleSubmit(makeRequest);
   }
 

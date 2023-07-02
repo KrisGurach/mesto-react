@@ -94,7 +94,7 @@ class Api {
 const config = {
   url: "https://mesto.nomoreparties.co/v1/cohort-66",
   token: "11d9edf0-d595-4b63-9e37-e0fd6cd15a36"
-}
+};
 
 // Создание экземпляра класса, описывающего запросы к серверу
 const api = new Api(config);

@@ -11,7 +11,7 @@ export default function PopupWithForm({
   isOpened,
   onSubmit,
 }) {
-  const {onClose} = useContext(AppContext);
+  const { onClose } = useContext(AppContext);
   usePopupClose(isOpened, onClose);
 
   return (
