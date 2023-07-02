@@ -29,6 +29,7 @@ export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
         minLength={2}
         maxLength={30}
         required=""
+        value={place || ''}
         onChange={(e) => setPlace(e.target.value)}
       />
       <span className="popup__error popup__error_type_place" />
@@ -39,6 +40,7 @@ export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
         className="popup__input popup__input_type_link"
         pattern="https://.*"
         required=""
+        value={link || ''}
         onChange={(e) => setLink(e.target.value)}
       />
       <span className="popup__error popup__error_type_link" />

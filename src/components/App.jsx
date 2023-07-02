@@ -15,132 +15,131 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
 
-
   //стейты для попапов
-  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false)
-  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false)
-  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false)
-  const [selectedCard, setIsSelectedCardOpen] = useState({})
-  const [isImagePopup, setIsImagePopupOpen] = useState(false)
+  const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
+  const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
+  const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
+  const [selectedCard, setIsSelectedCardOpen] = useState({});
+  const [isImagePopup, setIsImagePopupOpen] = useState(false);
 
   useEffect(() => {
-    api.getWebInfo()
-      .then((info) => setCurrentUser(info))
-  }, [])
+    api.getWebInfo().then((info) => setCurrentUser(info));
+  }, []);
 
   useEffect(() => {
     api.getCards().then((webCards) => setCards(webCards));
   }, []);
 
   function closeAllPopups() {
-    setIsEditProfilePopupOpen(false)
-    setIsAddPlacePopupOpen(false)
-    setIsEditAvatarPopupOpen(false)
-    setIsSelectedCardOpen({})
-    setIsImagePopupOpen(false)
+    setIsEditProfilePopupOpen(false);
+    setIsAddPlacePopupOpen(false);
+    setIsEditAvatarPopupOpen(false);
+    setIsSelectedCardOpen({});
+    setIsImagePopupOpen(false);
   }
 
   function handleEditProfileClick() {
-    setIsEditProfilePopupOpen(true)
+    setIsEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setIsAddPlacePopupOpen(true)
+    setIsAddPlacePopupOpen(true);
   }
 
   function handleEditAvatarClick() {
-    setIsEditAvatarPopupOpen(true)
+    setIsEditAvatarPopupOpen(true);
   }
 
-  function handleCardClick({link, name}) {
-    setIsSelectedCardOpen({link, name})
-    setIsImagePopupOpen(true)
+  function handleCardClick({ link, name }) {
+    setIsSelectedCardOpen({ link, name });
+    setIsImagePopupOpen(true);
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
-    
+    const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
     api.toggleLikeCard(card._id, !isLiked).then((newCard) => {
-        setCards((state) => state.map((c) => c._id === card._id ? newCard : c));
+      setCards((state) => state.map((c) => (c._id === card._id ? newCard : c)));
     });
   }
-  
+
   function handleCardDelete(id) {
-    api.removeCard(id)
-      .then(() => {
-        setCards((state) => state.filter(card => card._id !== id));
-      })
+    api.removeCard(id).then(() => {
+      setCards((state) => state.filter((card) => card._id !== id));
+    });
   }
 
   function handleUpdateUser(userNewInfo) {
-    api.updateProfileData(userNewInfo).then(() => {
-      setCurrentUser({
-        name: userNewInfo.name,
-        about: userNewInfo.about,
-        avatar: currentUser.avatar
-      });
+    api.updateProfileData(userNewInfo).then((userData) => {
+      setCurrentUser(userData);
       closeAllPopups();
-    })
+    });
   }
 
-  function handleUpdateAvatar({avatar}) {
-    api.sendAvatar(avatar).then(() => {
-      setCurrentUser({
-        name: currentUser.name,
-        about: currentUser.about,
-        avatar: avatar
-      });
+  function handleUpdateAvatar(avatar) {
+    api.sendAvatar(avatar).then((userData) => {
+      setCurrentUser(userData);
       closeAllPopups();
-    })
+    });
   }
 
-  function handleAddPlaceSubmit({place, link}) {
-    api.sendNewCard({place, link}).then((newCard) => {
+  function handleAddPlaceSubmit({ place, link }) {
+    api.sendNewCard({ place, link }).then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
-    })
+    });
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-    <div className="container">
+      <div className="container">
+        <Header />
 
-      <Header/>
-      
-      <Main
-        cards = {cards}
-        onEditProfile = {handleEditProfileClick}
-        onAddPlace = {handleAddPlaceClick}
-        onEditAvatar = {handleEditAvatarClick}
-        onCardClick = {handleCardClick}
-        onCardLike = {handleCardLike}
-        onCardDelete = {handleCardDelete}
-      />
+        <Main
+          cards={cards}
+          onEditProfile={handleEditProfileClick}
+          onAddPlace={handleAddPlaceClick}
+          onEditAvatar={handleEditAvatarClick}
+          onCardClick={handleCardClick}
+          onCardLike={handleCardLike}
+          onCardDelete={handleCardDelete}
+        />
 
-      <ImagePopup />
+        <ImagePopup />
 
-      <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
+        <EditProfilePopup
+          isOpen={isEditProfilePopupOpen}
+          onClose={closeAllPopups}
+          onUpdateUser={handleUpdateUser}
+        />
 
-      <AddPlacePopup isOpened={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+        <AddPlacePopup
+          isOpened={isAddPlacePopupOpen}
+          onClose={closeAllPopups}
+          onAddPlace={handleAddPlaceSubmit}
+        />
 
-      <EditAvatarPopup isOpened={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+        <EditAvatarPopup
+          isOpened={isEditAvatarPopupOpen}
+          onClose={closeAllPopups}
+          onUpdateAvatar={handleUpdateAvatar}
+        />
 
-      <PopupWithForm 
-        name='remove-photo' 
-        title='Вы уверены?' 
-        ariaLabel='Окно подтверждения удаления фото' 
-        titleButton='Да'>
+        <PopupWithForm
+          name="remove-photo"
+          title="Вы уверены?"
+          ariaLabel="Окно подтверждения удаления фото"
+          titleButton="Да"
+        ></PopupWithForm>
 
-      </PopupWithForm>
+        <ImagePopup
+          card={selectedCard}
+          isOpened={isImagePopup}
+          onClose={closeAllPopups}
+        />
 
-      <ImagePopup 
-        card={selectedCard} 
-        isOpened={isImagePopup} 
-        onClose={closeAllPopups} />
-
-      <Footer/>
-
-    </div>
+        <Footer />
+      </div>
     </CurrentUserContext.Provider>
   );
 }

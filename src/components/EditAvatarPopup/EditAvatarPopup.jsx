@@ -3,12 +3,12 @@ import PopupWithForm from "../PopupWithForm/PopupWithForm";
 
 export default function EditAvatarPopup({isOpened, onClose, onUpdateAvatar}) {
   const avatarRef = React.useRef();
-  const [avatar, setAvatar] = React.useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onUpdateAvatar({avatar});
+    const avatar = avatarRef.current.value;
+    onUpdateAvatar(avatar);
   }
 
   return (
@@ -29,7 +29,6 @@ export default function EditAvatarPopup({isOpened, onClose, onUpdateAvatar}) {
         className="popup__input popup__input_type_avatar"
         pattern="https://.*"
         required=""
-        onChange={() => setAvatar(avatarRef.current.value)}
       />
       <span className="popup__error popup__error_type_avatar" />
     </PopupWithForm>
