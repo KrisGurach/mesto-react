@@ -25,11 +25,15 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    api.getWebInfo().then((info) => setCurrentUser(info));
+    api.getWebInfo()
+      .then((info) => setCurrentUser(info))
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
-    api.getCards().then((webCards) => setCards(webCards));
+    api.getCards()
+      .then((webCards) => setCards(webCards))
+      .catch(console.error);
   }, []);
 
   function closeAllPopups() {
