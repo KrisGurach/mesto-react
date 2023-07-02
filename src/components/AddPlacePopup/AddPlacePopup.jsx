@@ -1,14 +1,15 @@
 import React from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
+import { useForm } from "../../hooks/useForm";
 
 export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
-  const [place, setPlace] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const {values, handleChange} = useForm({});
+
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onAddPlace({place, link});
+    onAddPlace(values);
   }
 
   return (
@@ -29,8 +30,8 @@ export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
         minLength={2}
         maxLength={30}
         required=""
-        value={place || ''}
-        onChange={(e) => setPlace(e.target.value)}
+        value={values.place || ''}
+        onChange={handleChange}
       />
       <span className="popup__error popup__error_type_place" />
       <input
@@ -40,8 +41,8 @@ export default function AddPlacePopup({isOpened, onClose, onAddPlace}) {
         className="popup__input popup__input_type_link"
         pattern="https://.*"
         required=""
-        value={link || ''}
-        onChange={(e) => setLink(e.target.value)}
+        value={values.link || ''}
+        onChange={handleChange}
       />
       <span className="popup__error popup__error_type_link" />
     </PopupWithForm>

@@ -1,4 +1,8 @@
+import { usePopupClose } from "../../hooks/usePopupClose"
+
 export default function ImagePopup({card, isOpened, onClose}) {
+  usePopupClose(isOpened, onClose);
+  
     return(
         <section
         className={`popup popup_type_photo ${isOpened && 'popup_opened'}`}

@@ -1,23 +1,21 @@
 import React from "react";
-import { useState } from "react";
 import PopupWithForm from "../PopupWithForm/PopupWithForm";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { useForm } from "../../hooks/useForm";
 
 
 export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);  
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  const {values, handleChange, setValues} = useForm(currentUser);
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
+    setValues(currentUser);
   }, [currentUser, isOpen]); 
 
   function handleSubmit(e) {
     e.preventDefault();
 
-    onUpdateUser({name, about: description});
+    onUpdateUser(values);
   }
 
   return (
@@ -38,20 +36,20 @@ export default function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
         minLength={2}
         maxLength={40}
         required=""
-        value={name || ''}
-        onChange={(e) => setName(e.target.value)}
+        value={values.name || ''}
+        onChange={handleChange}
       />
       <span className="popup__error popup__error_type_name" />
       <input
         type="text"
-        name="profession"
+        name="about"
         placeholder="Введите профессию"
         className="popup__input popup__input_type_profession"
         minLength={2}
         maxLength={400}
         required=""
-        value={description || ''}
-        onChange={(e) => setDescription(e.target.value)}
+        value={values.about || ''}
+        onChange={handleChange}
       />
       <span className="popup__error popup__error_type_profession" />
     </PopupWithForm>

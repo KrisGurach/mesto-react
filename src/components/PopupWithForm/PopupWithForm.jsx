@@ -1,3 +1,5 @@
+import { usePopupClose } from "../../hooks/usePopupClose";
+
 export default function PopupWithForm({
   name,
   title,
@@ -8,6 +10,8 @@ export default function PopupWithForm({
   onClose,
   onSubmit,
 }) {
+  usePopupClose(isOpened, onClose);
+
   return (
     <div
       className={`popup popup_type_${name} ${isOpened && "popup_opened"}`}
